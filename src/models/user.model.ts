@@ -1,4 +1,4 @@
-import { ResultSetHeader } from 'mysql2';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import IUser from '../interfaces/users.interface';
 import connection from './connection';
 
@@ -10,8 +10,16 @@ const create = async (user: IUser) => {
   return insertId;
 };
 
+const verifyLodin = async (login: IUser) => {
+  const [row] = await connection.execute<RowDataPacket[]>(`
+  SELECT * FROM Trybesmith.users WHERE username = ? AND password = ?;
+  `, [login.username, login.password]);
+  return row;
+}; 
+
 const UserModel = {
   create,
+  verifyLodin,
 };
 
 export default UserModel;
