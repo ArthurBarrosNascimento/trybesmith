@@ -9,7 +9,8 @@ export const getAll = async (_req: Request, res: Response) => {
 
 export const createProduct = async (req:Request, res: Response) => {
   const { name, amount } = req.body;
-  const productIdCreated = await ProductService.createProduct({ name, amount });
-  const porductById = await ProductService.getProductById(productIdCreated);
+  const { type, message } = await ProductService.createProduct({ name, amount });
+  if (type) return res.status(type).json(message);
+  const porductById = await ProductService.getProductById(message);
   return res.status(201).json(porductById);
 };

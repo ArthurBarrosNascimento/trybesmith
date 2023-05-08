@@ -6,12 +6,13 @@ import getAllOrders from './controllers/orders.controller';
 import verifyLoginUser from './controllers/login.controller';
 
 import verifyFields from './middleware/verifyFieldsLogin';
+import verifyFieldsUser from './middleware/varifyFIeldsUser';
 
 const app = express();
 
 app.use(express.json());
 app.get('/products', ProductController.getAll);
-app.post('/products', ProductController.createProduct);
+app.post('/products', verifyFieldsUser, ProductController.createProduct);
 
 app.post('/users', UserController.createUser);
 
